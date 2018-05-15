@@ -173,7 +173,7 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
     public function getImageCode($length, $type)
     {
         if(is_null($this->image_verify)){
-            $this->image_verufy = new \EasyCaptcha\Image\Verify();
+            $this->image_verify = new \EasyCaptcha\Image\Verify();
         }
 
         if(!(is_int($length) && $length > 0 && $length <= 6)){
@@ -183,7 +183,7 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
             throw new \Exception('the value of $type is error');
         }
 
-        $data = $this->image_verufy->getCode($length, $type);
+        $data = $this->image_verify->getCode($length, $type);
 
         $flag = $this->createImageCodeFlag($data['code']);
 
