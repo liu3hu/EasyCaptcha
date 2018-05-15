@@ -1,4 +1,12 @@
 <?php
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: Fearotor <769049825@qq.com>
+// +----------------------------------------------------------------------
+// | Github: https://github.com/fearotor-org/EasyCaptcha
+// +----------------------------------------------------------------------
+
 namespace EasyCaptcha;
 
 class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
