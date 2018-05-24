@@ -21,7 +21,7 @@ class Base
 
     private $_lang = 'zh';
 
-    private $_db = null;
+    private $_db_instance = null;
 
     //邮箱验证码
     private $_email_code = '';
@@ -39,8 +39,19 @@ class Base
     public function __construct($lang)
     {
         $this->_lang = $lang;
-        $this->config = include_once __DIR__ . '/config.php';
-        $this->_db = new Db($this->config['database']);
+        $this->config = include __DIR__ . '/config.php';
+    }
+
+    public function __get($name = null)
+    {
+        if($name == '_db'){
+            if(is_null($this->_db_instance)){
+                $this->_db_instance = new Db($this->config['database']);
+            }
+
+            return $this->_db_instance;
+        }
+        throw new \InvalidArgumentException('property not exists:' . static::class . '->' . $name);
     }
 
     /**
@@ -53,7 +64,7 @@ class Base
             return $this->error_msg;
         }
 
-        $lang_config = include_once __DIR__ . '/Lang.php';
+        $lang_config = include __DIR__ . '/Lang.php';
         if(!isset($lang_config[$this->_lang])){
             return 'unexpected lang';
         }
@@ -82,7 +93,7 @@ class Base
                 }
             }
         }
-        $this->_db = new Db($this->config['database']);
+        $this->_db_instance = new Db($this->config['database']);
     }
 
     /**
@@ -278,7 +289,7 @@ class Base
 
         $flag = implode('.', [$expire_h, $expire_m, $expire_s, $create_time, $rd_str, $code]);
 
-        $dirname = __DIR__.'/tmp/'.$expire_h.'/'.$expire_m;
+        $dirname = dirname(__DIR__).'/tmp/'.$expire_h.'/'.$expire_m;
         $this->_createImageCodeFlagDir($dirname);
         $filename = $expire_s.'.'.$create_time.'.'.$rd_str.'.'.$code;
         $handle = fopen($dirname.'/'.$filename, "w");
@@ -290,11 +301,16 @@ class Base
     //创建图形验证码标识目录
     private function _createImageCodeFlagDir($dir)
     {
+        if(is_dir($dir)){
+            return true;
+        }
         if(!is_dir(dirname($dir))){
             $this->_createImageCodeFlagDir(dirname($dir));
         }
 
         mkdir($dir);
+
+        return true;
     }
 
     //获取验证码

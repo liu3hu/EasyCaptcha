@@ -74,7 +74,7 @@ class Verify {
             // 绘杂点
             $this->_writeNoise();
         } 
-        if ($this->useCurve) {
+        if ($this->config['useCurve']) {
             // 绘干扰线
             $this->_writeCurve();
         }
@@ -108,7 +108,7 @@ class Verify {
     //获取验证码字符集
     private function _getCodeSet($type)
     {
-        $config = include_once dirname(__DIR__).'/EasyCaptcha/config.php';
+        $config = include dirname(__DIR__).'/EasyCaptcha/config.php';
 
         $code_set = '';
         if(in_array('number', $type) && in_array('alpha', $type)){
