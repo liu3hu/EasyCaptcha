@@ -213,7 +213,7 @@ $easy_captcha->setSendInterval(60);
 $easy_captcha->setTimesLimitOfIp(3600*24, 10);
 //同一个手机号一天最多获取5次验证码
 $easy_captcha->setTimesLimitOfTelephone(3600*24, 5);
-$code = $easy_captcha->getEmailCode(6, ['number']);
+$code = $easy_captcha->getSmsCode(6, ['number']);
 $template_vars = [
     'code' => $code,
     'expire_in' => '10分钟'

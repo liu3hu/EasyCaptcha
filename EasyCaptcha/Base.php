@@ -281,9 +281,9 @@ class Base
         $expire_time = $time + $this->config['code_expire'];
 
         $expire_h = date('YmdH', $expire_time);
-        $expire_m = date('i');
+        $expire_m = date('i', $expire_time);
 
-        $expire_s = date('s');
+        $expire_s = date('s', $expire_time);
         $create_time = $time;
         $rd_str = substr(str_shuffle('ABCDEFGHIJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789'), 0, 16);
 

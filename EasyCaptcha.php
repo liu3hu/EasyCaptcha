@@ -214,8 +214,11 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
                     continue;
                 }
                 if($item < date('YmdH')){
-                    \EasyCaptcha\EasyCaptcha\Util::deleteDir($op->path.'/'.$item);
-                    rmdir($op->path.'/'.$item);
+                    $dir = $op->path.'/'.$item;
+                    \EasyCaptcha\EasyCaptcha\Util::deleteDir($dir);
+                    if(is_dir($dir)){
+                        rmdir($dir);
+                    }
                 }
             }
         }
@@ -243,6 +246,7 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
         $rd_str = $flag_arr[4];
         $post_code = $flag_arr[5];
         $file = __DIR__.'/tmp/'.$expire_h.'/'.$expire_m.'/'.$expire_s.'.'.$create_time.'.'.$rd_str.'.'.$post_code;
+
         if(!file_exists($file) || $code != $post_code || time() < $create_time){
             $this->errors[] = 'code_error';
             return false;
