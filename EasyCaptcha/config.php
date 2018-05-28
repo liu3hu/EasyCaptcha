@@ -11,12 +11,14 @@ return [
     ],
 
     'email' => [
-        'smtp_host'   =>'',
-        'smtp_port'   =>'',
-        'smtp_user'   =>'',
-        'smtp_pass'   =>'',
-        'from_email'  =>'',
-        'from_name'   =>''
+        'smtp_host'   => '',
+        'smtp_port'   => '',
+        'smtp_user'   => '',
+        'smtp_pass'   => '',
+        'from_email'  => '',
+        'from_name'   => '',
+		'reply_email' => '',
+        'reply_name'  => ''
     ],
 
     'sms' => [
