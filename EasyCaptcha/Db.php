@@ -95,7 +95,7 @@ class Db
                 CREATE TABLE `{$this->_config['table']}` (
                     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                     `account` VARCHAR(255) NOT NULL,
-                    `account_type` ENUM('telephone','email') NOT NULL,
+                    `account_type` ENUM('cellphone','email') NOT NULL,
                     `code` VARCHAR(6) NOT NULL,
                     `ip` VARCHAR(20) NOT NULL,
                     `send_time` INT(11) UNSIGNED NOT NULL,

@@ -44,7 +44,7 @@ class Util
      * @param $telephone 手机号
      * @return bool
      */
-    public static function telephoneCheck($telephone)
+    public static function cellphoneCheck($cellphone)
     {
         $phone_prefix=array(
             'unicom' =>array('130','131','132','145','155','156','176','185','186'),
@@ -58,7 +58,7 @@ class Util
         }
         $all_phone_prefix=implode('|',$all_phone_prefix_arr);
 
-        if(preg_match("/^($all_phone_prefix)[0-9]{8}$/", $telephone)){
+        if(preg_match("/^($all_phone_prefix)[0-9]{8}$/", $cellphone)){
             return true;
         }
         return false;

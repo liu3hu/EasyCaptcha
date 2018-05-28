@@ -5,7 +5,7 @@ class Sms
 {
     private $_config = [
         'access' => [],
-        'telephone' => '',
+        'cellphone' => '',
         'template_id' => '',
         'template_vars' => [],
     ];
@@ -42,7 +42,7 @@ class Sms
         $sendUrl = 'http://v.juhe.cn/sms/send'; //短信接口的URL
         $smsConf = array(
             'key'       => $this->_config['access']['key'], //您申请的APPKEY
-            'mobile'    => $this->_config['telephone'], //接受短信的用户手机号码
+            'mobile'    => $this->_config['cellphone'], //接受短信的用户手机号码
             'tpl_id'    => $this->_config['template_id'], //您申请的短信模板ID，根据实际情况修改
             'tpl_value' => implode('&', $content_arr) //您设置的模板变量，根据实际情况修改
         );
@@ -92,7 +92,7 @@ class Sms
         $accessKeySecret = $this->_config['access']['accessKeySecret'];
 
         // fixme 必填: 短信接收号码
-        $params["PhoneNumbers"] = $this->_config['telephone'];
+        $params["PhoneNumbers"] = $this->_config['cellphone'];
 
         // fixme 必填: 短信签名，应严格按"签名名称"填写，请参考: https://dysms.console.aliyun.com/dysms.htm#/develop/sign
         $params["SignName"] = $this->_config['access']['signature'];

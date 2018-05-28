@@ -33,7 +33,7 @@ class Base
     private $_limit_rule = [
         'ip' => [],
         'email' => [],
-        'telephone' => []
+        'cellphone' => []
     ];
 
     public function __construct($lang)
@@ -191,12 +191,12 @@ class Base
      * 手机账号在单位时间的发送验证码次数
      * @param int $seconds 单位时间 秒
      * @param int $times   单位时间的最大发送次数
-     * @param string $telephone 指定telephone 默认为空 不指定telephone
+     * @param string $cellphone 指定cellphone 默认为空 不指定$cellphone
      * @return void
      */
-    public function setTimesLimitOfTelephone($seconds, $times, $telephone = '')
+    public function setTimesLimitOfTelephone($seconds, $times, $cellphone = '')
     {
-        $this->_setTimesLimit('telephone', $seconds, $times, $telephone);
+        $this->_setTimesLimit('cellphone', $seconds, $times, $cellphone);
     }
 
     //发送验证码前置操作
@@ -230,7 +230,13 @@ class Base
         $ip = Util::ip(0,true);
         $info = $this->_db->getCodeInfo(['account_type' => $account_type, 'code' => $code]);
 
-        if(!(!empty($info) && $info['account'] == $account && $info['ip'] == $ip)){
+        $origin_code = $info['code'];
+        if($this->config['code_case_ignore']){
+            $code = strtolower($code);
+            $origin_code = strtolower($origin_code);
+        }
+
+        if(!(!empty($info) && $info['account'] === strtolower($account) && $origin_code === $code && $info['ip'] == $ip)){
             $this->errors[] = 'code_error';
             return false;
         }
@@ -430,7 +436,7 @@ class Base
         }
         $time = time();
         $data=[
-            'account' => $account,
+            'account' => strtolower($account),
             'account_type' => $account_type,
             'code' => $code,
             'ip' => Util::ip(0,true),

@@ -4,7 +4,7 @@ return [
         'email_format_error'        => '邮箱格式错误',
         'email_config_error'        => '邮箱服务配置错误',
 
-        'telephone_format_error'    => '手机号格式错误',
+        'cellphone_format_error'    => '手机号格式错误',
         'sms_platform_error'        => '短信平台错误',
         'sms_template_id_error'     => '短信模板ID错误',
         'sms_template_vars_error'   => '短信模板内容错误',

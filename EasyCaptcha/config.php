@@ -45,6 +45,9 @@ return [
 
     'send_interval' => '60',
 
+	//验证码是否区分大小写
+	'code_case_ignore' => true,
+
     'code_set' => [
         'number'       => '0123456789',
         'number_alpha' => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',

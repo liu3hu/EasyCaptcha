@@ -97,22 +97,22 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
      */
     public function getSmsCode($length, $type)
     {
-        return $this->getUniqueCode('telephone', $length, $type);
+        return $this->getUniqueCode('cellphone', $length, $type);
     }
 
     /**
      * 发送短信验证码
-     * @param string $telephone 手机号
+     * @param string $cellphone 手机号
      * @param array $template_vars 短信模板变量
      * @param string $template_id 短信模板代码
      * @param string $plateform 短信平台
      * @return bool
      */
-    public function sendSmsCode($telephone, $template_vars, $template_id = '', $plateform = '')
+    public function sendSmsCode($cellphone, $template_vars, $template_id = '', $plateform = '')
     {
         //验证手机号格式
-        if(!\EasyCaptcha\EasyCaptcha\Util::telephoneCheck($telephone)){
-            $this->errors[] = 'telephone_format_error';
+        if(!\EasyCaptcha\EasyCaptcha\Util::cellphoneCheck($cellphone)){
+            $this->errors[] = 'cellphone_format_error';
             return false;
         }
 
@@ -137,13 +137,13 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
             return false;
         }
 
-        if(!$this->beforeSend('telephone', $telephone)){
+        if(!$this->beforeSend('cellphone', $cellphone)){
             return false;
         }
 
         $sms = new \EasyCaptcha\EasyCaptcha\Sms([
             'access' => $this->config['sms']['platforms'][$plateform]['access'],
-            'telephone' => $telephone,
+            'cellphone' => $cellphone,
             'template_id' => $template_id,
             'template_vars' => $template_vars
         ]);
@@ -157,19 +157,19 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
 
     /**
      * 校验短信验证码
-     * @param string $telephone
+     * @param string $cellphone
      * @param string $code
      * @return bool
      */
-    public function verifySmsCode($telephone, $code)
+    public function verifySmsCode($cellphone, $code)
     {
         //验证手机号格式
-        if(!\EasyCaptcha\EasyCaptcha\Util::telephoneCheck($telephone)){
-            $this->errors[] = 'telephone_format_error';
+        if(!\EasyCaptcha\EasyCaptcha\Util::cellphoneCheck($cellphone)){
+            $this->errors[] = 'cellphone_format_error';
             return false;
         }
 
-        return $this->verifyCode('telephone', $telephone, $code);
+        return $this->verifyCode('cellphone', $cellphone, $code);
     }
 
     /*
@@ -247,7 +247,12 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
         $post_code = $flag_arr[5];
         $file = __DIR__.'/tmp/'.$expire_h.'/'.$expire_m.'/'.$expire_s.'.'.$create_time.'.'.$rd_str.'.'.$post_code;
 
-        if(!file_exists($file) || $code != $post_code || time() < $create_time){
+        if($this->config['code_case_ignore']){
+            $post_code = strtolower($post_code);
+            $code = strtolower($code);
+        }
+
+        if(!file_exists($file) || $code !== $post_code || time() < $create_time){
             $this->errors[] = 'code_error';
             return false;
         }
