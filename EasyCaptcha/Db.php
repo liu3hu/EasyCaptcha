@@ -38,7 +38,7 @@ class Db
         }
         $where = implode(' and ', $where);
 
-        $sth  =  $this->_pdo->prepare("select {$fields} from {$this->_config['table']} where {$where} limit 1 order by id desc");
+        $sth  =  $this->_pdo->prepare("select {$fields} from {$this->_config['table']} where {$where} order by id desc limit 1");
         $sth -> execute ();
         $res  =  $sth -> fetchAll ();
         if(empty($res)){
