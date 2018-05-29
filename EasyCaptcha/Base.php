@@ -229,14 +229,17 @@ class Base
         //校验验证码
         $ip = Util::ip(0,true);
         $info = $this->_db->getCodeInfo(['account_type' => $account_type, 'code' => $code]);
-
+		if(empty($info)){
+			$this->errors[] = 'code_error';
+            return false;
+        }
         $origin_code = $info['code'];
         if($this->config['code_case_ignore']){
             $code = strtolower($code);
             $origin_code = strtolower($origin_code);
         }
 
-        if(!(!empty($info) && $info['account'] === strtolower($account) && $origin_code === $code && $info['ip'] == $ip)){
+        if(!($info['account'] === strtolower($account) && $origin_code === $code && $info['ip'] == $ip)){
             $this->errors[] = 'code_error';
             return false;
         }
