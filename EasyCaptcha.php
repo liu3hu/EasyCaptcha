@@ -217,7 +217,7 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
 				if($file < date('YmdH') && is_dir($tmp_path.'/'.$file)){
 					\EasyCaptcha\EasyCaptcha\Util::deleteDir($tmp_path.'/'.$file);
 				}
-			}
+            }
         }
 
         //验证验证码格式

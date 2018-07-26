@@ -85,7 +85,7 @@ class Util
     public static function deleteDir($path)
 	{
 		if(!is_string($path)){
-			return false;
+            return false;
 		}
 		$path = trim($path);
 		$end_char = substr($path, -1);
