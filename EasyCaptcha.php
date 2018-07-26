@@ -207,20 +207,17 @@ class EasyCaptcha extends \EasyCaptcha\EasyCaptcha\Base
     public function verifyImageCode($flag, $code)
     {
         //删除过期验证码
-        if(file_exists(__DIR__.'/tmp') && is_dir(__DIR__.'/tmp')){
-            $op = dir(__DIR__.'/tmp');
-            while(false != ($item = $op->read())) {
-                if($item == '.' || $item == '..') {
-                    continue;
-                }
-                if($item < date('YmdH')){
-                    $dir = $op->path.'/'.$item;
-                    \EasyCaptcha\EasyCaptcha\Util::deleteDir($dir);
-                    if(is_dir($dir)){
-                        rmdir($dir);
-                    }
-                }
-            }
+		$tmp_path = __DIR__.'/tmp';
+        if(file_exists($tmp_path) && is_dir($tmp_path)){
+            $files = scandir ($tmp_path);
+			foreach($files as $file){
+				if($file == '.' || $file == '..') {
+					continue;
+				}
+				if($file < date('YmdH') && is_dir($tmp_path.'/'.$file)){
+					\EasyCaptcha\EasyCaptcha\Util::deleteDir($tmp_path.'/'.$file);
+				}
+			}
         }
 
         //验证验证码格式

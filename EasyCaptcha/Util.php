@@ -83,35 +83,36 @@ class Util
      * @return boolean
      */
     public static function deleteDir($path)
-    {
-        if(!is_string($path)){
-            return false;
-        }
-        if(file_exists($path) && is_dir($path)){
-            $op = dir($path);
-            while(false != ($item = $op->read())) {
-                if($item == '.' || $item == '..') {
-                    continue;
-                }
-                if(is_dir($op->path.'/'.$item)) {
-                    $r1 = self::deleteDir($op->path.'/'.$item);
-                    if($r1 === false){
-                        return false;
-                    }
-                    $r2 = rmdir($op->path.'/'.$item);
-                    if($r2 === false){
-                        return false;
-                    }
-                } else {
-                    $r3 = unlink($op->path.'/'.$item);
-                    if($r3 === false){
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }else{
-            return false;
-        }
-    }
+	{
+		if(!is_string($path)){
+			return false;
+		}
+		$path = trim($path);
+		$end_char = substr($path, -1);
+		if($end_char == '/' || $end_char == '\\'){
+			$path = substr($path, 0, -1);
+		}
+		if(!(file_exists($path) && is_dir($path))){
+			return false;
+		}
+		
+		$files = scandir ($path);
+		foreach($files as $file){
+			if($file == '.' || $file == '..') {
+				continue;
+			}
+			$file = $path.'/'.$file;
+			if(is_dir($file)) {
+				if(false === self::deleteDir($file)){
+					return false;
+				}
+			} else {
+				if(false === unlink($file)){
+					return false;
+				}
+			}
+		}
+		$res = rmdir($path);
+		return !!$res;
+	}
 }
